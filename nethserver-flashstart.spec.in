@@ -8,7 +8,7 @@ Source0: %{name}-%{version}.tar.gz
 BuildArch: noarch
 
 Requires: nethserver-squid
-Requires: php-soap
+Requires: php-soap, perl-Net-DNS
 
 BuildRequires: perl
 BuildRequires: nethserver-devtools 

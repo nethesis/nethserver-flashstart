@@ -31,11 +31,12 @@ my $event = 'nethserver-flashstart-update';
 
 event_actions($event, qw(
       initialize-default-databases 00
-      nethserver-flashstart-conf 20
+      nethserver-flashstart-squid-acls 20
+      nethserver-flashstart-ws 30
 ));
 
 event_templates($event, qw(
-                 /etc/squid/squid.conf
+      /etc/squid/squid.conf
 ));
 
 event_services($event, 'squid' => 'restart');
@@ -47,12 +48,32 @@ event_services($event, 'squid' => 'restart');
 $event = 'nethserver-flashstart-save';
 
 event_actions($event, qw(
-      initialize-default-databases 00
+      nethserver-flashstart-squid-acls 20
+      nethserver-flashstart-ws 30
 ));
 
 event_templates($event, qw(
-                 /etc/squid/squid.conf
+      /etc/squid/squid.conf
 ));
 
-
 event_services($event, 'squid' => 'reload');
+
+
+
+#
+# group-{create,delete,modify} events
+#
+
+event_actions(qw(group-create group-delete group-modify), qw(
+      nethserver-flashstart-squid-acls 20
+      nethserver-flashstart-ws 30
+));
+
+event_templates(qw(group-create group-delete group-modify), qw(
+      /etc/squid/squid.conf
+));
+
+event_services(qw(group-create group-delete group-modify), 'squid' => 'reload');
+
+
+

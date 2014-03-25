@@ -1,6 +1,7 @@
 #!/usr/bin/perl -w
 
 use esmith::ConfigDB;
+use esmith::HostsDB;
 use esmith::AccountsDB;
 
 sub writeToFile {
@@ -26,6 +27,7 @@ sub cleanDir {
 my $dir = '/etc/squid/acls/';
 my $fdb = esmith::ConfigDB->open_ro('flashstart') || return;
 my $adb = esmith::AccountsDB->open_ro();
+my $hdb = esmith::HostsDB->open_ro();
 cleanDir($dir."flashstart_*.acl");
 foreach my $profile ( $fdb->get_all() ) {
         my $account = $adb->get($profile->key) || undef;
@@ -35,7 +37,18 @@ foreach my $profile ( $fdb->get_all() ) {
                 writeToFile($dir."flashstart_".$profile->key.".acl", @list);
             }
         } else {
-           #TODO search in fobjects db
+            my $hgroup = $hdb->get($profile->key) || undef;
+            if ($hgroup->prop('type') eq 'host-group') {
+                my @list;
+                foreach my $host (split(',',$hgroup->prop('Members'))) {
+                   my $h = $hdb->get($host);
+                   my $ip = $h->prop('IpAddress') || '';
+                   next unless ($ip ne '');
+                   push(@list, $ip);
+                }
+                
+                writeToFile($dir."flashstart_".$profile->key.".acl", @list);
+            }
         } 
 }
 

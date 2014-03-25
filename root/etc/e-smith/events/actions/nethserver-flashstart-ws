@@ -1,29 +1,6 @@
 #!/usr/bin/php
 <?php
 
-	//setto array da inviare
-	$data=array();
-		$data["TokenID"]=$token->TokenID;
-		$data["TransactionID"]="CREATE_PROFILE";
-		$data["UserAdmin"]=$user;
-		//
-		$data["CreateProfileInputParam"]=array();		
-			$data["CreateProfileInputParam"]["TypeProfile"]='1';
-			$data["CreateProfileInputParam"]["PortAvaible"]='5403';
-			$data["CreateProfileInputParam"]["StatoProfile"]='1';
-			$data["CreateProfileInputParam"]["LabelName"]='mytestprofile';
-    function objectToArray($obj)
-    {
-        if (is_object($obj)) {
-            $obj = get_object_vars($obj);
-        }
-        if (is_array($obj)) {
-            return array_map(__FUNCTION__, $obj);
-        } else {
-            return $obj;
-        }
-    }
-
 class FlashStartWS
 {
     /**
@@ -102,13 +79,15 @@ class FlashStartWS
         $ret = array();
         try {
             $result = $this->client->InfoSedeProfile(array('UserAdmin' => $this->user, 'TokenID' => $this->token->TokenID, 'TransactionID' => 'GETPROFILELIST'));
-            foreach($result->OperationInfoSedeProfile->InfoProfile as $obj) {
-                if (isset($obj->iInfoProfile)) {
-                    $obj = (array) $obj->iInfoProfile;
-                } else {
-                    $obj = (array) $obj;
+            if (isset($result->OperationInfoSedeProfile->InfoProfile)) {
+                foreach($result->OperationInfoSedeProfile->InfoProfile as $obj) {
+                    if (isset($obj->iInfoProfile)) {
+                        $obj = (array) $obj->iInfoProfile;
+                    } else {
+                        $obj = (array) $obj;
+                    }
+                    $ret[$obj['LabelName']] = $obj['PortAvaible'];
                 }
-                $ret[$obj['LabelName']] = $obj['PortAvaible'];
             }
 
             return $ret;
@@ -131,6 +110,9 @@ class FlashStartWS
         $data["CreateProfileInputParam"]["LabelName"]=$label;
         try {
             $result = $this->client->CreateProfile($data);
+            if ($result->ResultCreateProfile == 0) {
+                throw new Exception("createProfile($port, $label) failed: " . $result->OperationCreateProfile->ResultMsg);
+            }
         } catch (\Exception $e) {
             $this->handleException($e);
         }
@@ -186,7 +168,6 @@ if (!$password) {
     exit(1);
 }
 
-//TODO: server registration
 
 //TODO: rimuovere
 $password = strtoupper("00:24:01:eb:14:6c");
@@ -199,6 +180,7 @@ $flash_db = json_decode(exec("/sbin/e-smith/db flashstart printjson"));
 foreach($flash_db as $key) {
    // create remote profile if not exists
    if (!in_array($key->name, array_keys($remote_profiles))) {
+       echo "FlashStartWS: creating remote profile {$key->name} ({$key->props->Port})\n";
        $ws->createProfile($key->props->Port, $key->name);
    }
    unset($remote_profiles[$key->name]);
@@ -206,6 +188,7 @@ foreach($flash_db as $key) {
 
 //delete profiles only on remote server
 foreach ($remote_profiles as $name => $port) {
+    echo "FlashStartWS: removing remote profile $name ($port)\n";
     $ws->deleteProfile($port);
 }
 
