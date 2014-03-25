@@ -1,0 +1,41 @@
+#!/usr/bin/perl
+
+use Net::DNS;
+use List::Util qw/shuffle/;
+
+my $port = $ARGV[0] || "53";
+
+$|=1;
+while (<STDIN>) {
+    $_ =~ s/^\s+//;
+    $_ =~ s/\s+$//;
+    print valid($_, $port);
+}
+exit 0;
+
+sub valid {
+    my $host = shift;
+    my $port = shift || '53';
+    my @servers = shuffle ('188.94.192.215','85.18.248.198');
+ 
+    my $res = Net::DNS::Resolver->new(
+        nameservers => [@servers],
+  	recurse     => 0,
+  	debug       => 0,
+        port        => $port
+   );
+
+   my $q = $res->search($host);
+   if ($q) {
+       foreach $rr ($q->answer) {
+           next unless $rr->type eq "A";
+           if ( $rr->address ~~ @servers )  {
+               return "ERR";
+           } else {
+               return "OK";
+           }
+       }
+   } else {
+       return "ERR";
+   }
+}

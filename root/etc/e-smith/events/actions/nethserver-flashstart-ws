@@ -1,0 +1,213 @@
+#!/usr/bin/php
+<?php
+
+	//setto array da inviare
+	$data=array();
+		$data["TokenID"]=$token->TokenID;
+		$data["TransactionID"]="CREATE_PROFILE";
+		$data["UserAdmin"]=$user;
+		//
+		$data["CreateProfileInputParam"]=array();		
+			$data["CreateProfileInputParam"]["TypeProfile"]='1';
+			$data["CreateProfileInputParam"]["PortAvaible"]='5403';
+			$data["CreateProfileInputParam"]["StatoProfile"]='1';
+			$data["CreateProfileInputParam"]["LabelName"]='mytestprofile';
+    function objectToArray($obj)
+    {
+        if (is_object($obj)) {
+            $obj = get_object_vars($obj);
+        }
+        if (is_array($obj)) {
+            return array_map(__FUNCTION__, $obj);
+        } else {
+            return $obj;
+        }
+    }
+
+class FlashStartWS
+{
+    /**
+     * Reseller's user name for FlashStart web site
+     *
+     * @var string
+     */
+    private $user = '';
+
+    /**
+     * Reseller's password for FlashStart web site
+     *
+     * @var string
+     */
+    private $password = '';
+
+    /**
+     * WISDL url for FlashStart
+     *
+     * @var string
+     */
+    private $url = 'http://cloud.flashstart.it/ServiceFS/FlashStart.Service.php?wsdl';
+
+    /**
+     * SOAP client
+     *
+     * @var object
+     */
+    private $client = NULL;
+
+    /**
+     * FlashStart token
+     *
+     * @var object
+     */
+    private $token = NULL;
+
+
+    /**
+     * Create a SOAP client for FlashStart web site
+     *
+     * @param string $user reseller's user name
+     * @param string $password reseller's password
+     * @param string $url WISDL url (optional)
+     *
+     * @api
+     * @return FlashStart
+     */
+    public function __construct($user, $password, $url = '')
+    {
+        $this->user = $user;
+        $this->password = $password;
+        if ($url) {
+            $this->url = $url;
+        }
+        $this->client = new SoapClient($this->url);
+        
+        try {
+            $this->token = $this->client->Login(array('UserName' => $this->user, 'Password' => $this->password, 'ApplicationID' => 'HY'));
+            if ($this->token->TokenID == "null") {
+                throw new Exception('Bad credentials');
+            }
+        } catch (Exception $e) {
+            $this->handleException($e);
+        }
+    }
+
+    private function handleException(Exception $ex)
+    {
+        echo "FlashStartWS error: " . $ex->getMessage(). "\n";
+        exit(1);
+    }
+
+    public function getProfileList()
+    {
+        $ret = array();
+        try {
+            $result = $this->client->InfoSedeProfile(array('UserAdmin' => $this->user, 'TokenID' => $this->token->TokenID, 'TransactionID' => 'GETPROFILELIST'));
+            foreach($result->OperationInfoSedeProfile->InfoProfile as $obj) {
+                if (isset($obj->iInfoProfile)) {
+                    $obj = (array) $obj->iInfoProfile;
+                } else {
+                    $obj = (array) $obj;
+                }
+                $ret[$obj['LabelName']] = $obj['PortAvaible'];
+            }
+
+            return $ret;
+        } catch (\Exception $e) {
+            $this->handleException($e);
+        }
+    }
+
+
+    public function createProfile($port, $label) 
+    {
+        $data=array();
+        $data["TokenID"]=$this->token->TokenID;
+        $data["UserAdmin"]=$this->user;
+        $data["TransactionID"]="CREATEPROFILE";
+        $data["CreateProfileInputParam"]=array();              
+        $data["CreateProfileInputParam"]["TypeProfile"]='1';
+        $data["CreateProfileInputParam"]["StatoProfile"]='1';
+        $data["CreateProfileInputParam"]["PortAvaible"]=$port;
+        $data["CreateProfileInputParam"]["LabelName"]=$label;
+        try {
+            $result = $this->client->CreateProfile($data);
+        } catch (\Exception $e) {
+            $this->handleException($e);
+        }
+    }
+
+    public function deleteProfile($port) {
+        $data=array();
+        $data["TokenID"]=$this->token->TokenID;
+        $data["UserAdmin"]=$this->user;
+        $data["TransactionID"]="DELETEPROFILE";
+        $data["DeleteProfileInputParam"] = array();
+        $data["DeleteProfileInputParam"]["PortNumber"] = $port;
+        
+        try {
+            $this->client->DeleteProfile($data);
+        } catch (\Exception $e) {
+            $this->handleException($e);
+        }
+    }
+}
+
+$user = '';
+$password = '';
+
+$system_id = json_decode(exec("/sbin/e-smith/db configuration getjson nethupdate SystemID"));
+$user = $system_id->props->SystemID;
+if (!$user) {
+    echo "No SystemID found";
+    exit(1);
+}
+
+$network_db = json_decode(exec("/sbin/e-smith/db networks printjson"));
+$bridge = false;
+foreach ($network_db as $key) {
+    if ($key->props->role == 'green') {
+        if ($key->type == 'bridge') {
+            $bridge = $key->props->device;
+        } else {
+            $password = $key->props->hwaddr;
+            break;
+        }
+    }
+    // search for ethernet associated with the bridge 
+    if ($bridge) {
+        if ($key->props->role == 'bridged' && $key->props->bridge == $bridge) {
+            $password = $key->props->hwaddr;
+            break;
+        } 
+    }
+}
+if (!$password) {
+    echo "No suitable MAC found";
+    exit(1);
+}
+
+//TODO: server registration
+
+//TODO: rimuovere
+$password = strtoupper("00:24:01:eb:14:6c");
+
+$ws = new FlashStartWS($user,$password);
+$remote_profiles = $ws->getProfileList();
+
+$flash_db = json_decode(exec("/sbin/e-smith/db flashstart printjson"));
+
+foreach($flash_db as $key) {
+   // create remote profile if not exists
+   if (!in_array($key->name, array_keys($remote_profiles))) {
+       $ws->createProfile($key->props->Port, $key->name);
+   }
+   unset($remote_profiles[$key->name]);
+}
+
+//delete profiles only on remote server
+foreach ($remote_profiles as $name => $port) {
+    $ws->deleteProfile($port);
+}
+
+
+exit(0);

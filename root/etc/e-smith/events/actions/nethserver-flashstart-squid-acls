@@ -1,0 +1,42 @@
+#!/usr/bin/perl -w
+
+use esmith::ConfigDB;
+use esmith::AccountsDB;
+
+sub writeToFile {
+   my ($file, @content) = @_;
+   open my $fh, '>', $file or die "Cannot open $file: $!";
+   foreach (@content) {
+       next unless defined $_;
+       print $fh "$_\n";
+   }
+   close $fh;
+}
+
+
+sub cleanDir {
+    my $pattern = shift;
+    my @files = glob($pattern);
+
+    foreach my $file (@files) {
+        unlink $file;
+    }
+}
+
+my $dir = '/etc/squid/acls/';
+my $fdb = esmith::ConfigDB->open_ro('flashstart') || return;
+my $adb = esmith::AccountsDB->open_ro();
+cleanDir($dir."flashstart_*.acl");
+foreach my $profile ( $fdb->get_all() ) {
+        my $account = $adb->get($profile->key) || undef;
+        if (defined($account)) {
+            if ($account->prop('type') eq 'group') {
+                my @list = split(',',$account->prop('Members'));
+                writeToFile($dir."flashstart_".$profile->key.".acl", @list);
+            }
+        } else {
+           #TODO search in fobjects db
+        } 
+}
+
+
