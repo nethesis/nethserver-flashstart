@@ -2,31 +2,28 @@
 
 use Net::DNS;
 use List::Util qw/shuffle/;
-use constant DEBUG => 0;
 
 my $port = $ARGV[0] || "53";
-our $LOG;
+my $whitelist = 'flashstart.it';
 
 $SIG{INT}  = \&signal_handler;
 $SIG{TERM} = \&signal_handler;
 
 sub signal_handler {
-    close $LOG unless (DEBUG == 0);
     exit 0;
 }
 
 $|=1;
-if (DEBUG == 1) {
-    open ($LOG, '>>', '/var/log/squid/flashstart-acl.log');
-    $LOG->autoflush;
-}
 while (<STDIN>) {
     $_ =~ s/^\s+//;
     $_ =~ s/\s+$//;
-    print valid($_, $port);
+    if ($_ =~ /$whitelist/) {
+        print "OK message=whitelisted";
+    } else {
+        print valid($_, $port);
+    }
     print "\n";
 }
-close $LOG;
 exit 0;
 
 sub valid {
@@ -41,22 +38,17 @@ sub valid {
         port        => $port
    );
    
-   print $LOG $host unless (DEBUG == 0);
    my $q = $res->search($host);
    if ($q) {
        foreach $rr ($q->answer) {
            next unless $rr->type eq "A";
-           print $LOG " -> ".$rr->address unless (DEBUG == 0);
            if ( $rr->address ~~ @servers )  {
-               print $LOG " -> ERR\n" unless (DEBUG == 0);
                return "ERR";
            } else {
-               print $LOG " -> OK\n" unless (DEBUG == 0);
                return "OK";
            }
        }
    } else {
-       print $LOG " -> ERR message=no answer\n" unless (DEBUG == 0);
        return "ERR message=no answer";
    }
 }
