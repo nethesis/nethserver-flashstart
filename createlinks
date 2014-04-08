@@ -76,4 +76,21 @@ event_templates(qw(group-create group-delete group-modify), qw(
 event_services(qw(group-create group-delete group-modify), 'squid' => 'reload');
 
 
+#
+# firewall-objects-modify events
+#
+
+$event = 'firewall-objects-modify';
+
+event_actions($event, qw(
+      nethserver-flashstart-squid-acls 20
+));
+
+event_templates( $event, qw(
+      /etc/squid/squid.conf
+));
+
+event_services($event, 'squid' => 'reload');
+
+
 
