@@ -11,3 +11,6 @@ $L['name_label'] = 'Name';
 $L['SrcProfile_Title'] = 'IP profiles';
 $L['UserProfile_Title'] = 'User profiles';
 $L['profile_create_header'] = 'Create new profile';
+$L['configure_header'] = 'Configure FlashStart profiles';
+$L['external_page'] = 'By clicking below button, you will be redirect to an external site.';
+$L['flashstart_page_title'] = 'FlashStart profiles';

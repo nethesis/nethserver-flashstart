@@ -50,6 +50,7 @@ class SrcProfile extends \Nethgui\Controller\TableController
             ->setTableAdapter($this->getPlatform()->getTableAdapter('flashstart', 'src-profile'))
             ->addRowAction(new \Nethgui\Controller\Table\Modify('delete', $parameterSchema, 'Nethgui\Template\Table\Delete')) // Standard DELETE template
             ->addTableAction(new \NethServer\Module\FlashStart\SrcProfile\Modify('create'))
+            ->addTableAction(new \NethServer\Module\FlashStart\External\Configure())
             ->addTableAction(new \Nethgui\Controller\Table\Help('Help'))
             ->setColumns($columns)
         ;

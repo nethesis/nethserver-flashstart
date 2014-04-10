@@ -50,6 +50,7 @@ class UserProfile extends \Nethgui\Controller\TableController
             ->setTableAdapter($this->getPlatform()->getTableAdapter('flashstart', 'user-profile'))
             ->addRowAction(new \Nethgui\Controller\Table\Modify('delete', $parameterSchema, 'Nethgui\Template\Table\Delete')) // Standard DELETE template
             ->addTableAction(new \NethServer\Module\FlashStart\UserProfile\Modify('create'))
+            ->addTableAction(new \NethServer\Module\FlashStart\External\Configure())
             ->addTableAction(new \Nethgui\Controller\Table\Help('Help'))
             ->setColumns($columns)
         ;
