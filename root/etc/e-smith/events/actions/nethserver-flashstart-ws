@@ -169,9 +169,6 @@ if (!$password) {
 }
 
 
-//TODO: rimuovere
-$password = strtoupper("00:24:01:eb:14:6c");
-
 $ws = new FlashStartWS($user,$password);
 $remote_profiles = $ws->getProfileList();
 
