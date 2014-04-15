@@ -29,7 +29,7 @@ class Configure extends \Nethgui\Controller\Table\AbstractAction
 {
     public function prepareView(\Nethgui\View\ViewInterface $view)
     {
-         $passsord = '';
+         $password = '';
          $user = $this->getPlatform()->getDatabase('configuration')->getProp('nethupdate','SystemID');
          $interfaces = $this->getPlatform()->getDatabase('networks')->getAll();
          $bridge = false;
