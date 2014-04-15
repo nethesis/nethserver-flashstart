@@ -33,10 +33,12 @@ event_actions($event, qw(
       initialize-default-databases 00
       nethserver-flashstart-squid-acls 20
       nethserver-flashstart-ws 30
+      firewall-adjust 50
 ));
 
 event_templates($event, qw(
       /etc/squid/squid.conf
+      /etc/shorewall/tcrules
 ));
 
 event_services($event, 'squid' => 'restart');
