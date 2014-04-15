@@ -77,6 +77,17 @@ event_services(qw(group-create group-delete group-modify), 'squid' => 'reload');
 
 
 #
+# wan-uplink-update events
+#
+
+$event = 'wan-uplink-update';
+
+event_actions($event, qw(
+      nethserver-flashstart-update-ip 90
+      ));
+
+
+#
 # firewall-objects-modify events
 #
 
