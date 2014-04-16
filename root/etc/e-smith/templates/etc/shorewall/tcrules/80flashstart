@@ -16,7 +16,7 @@
         my @list = reverse sort (keys %providers);
         my $mark = $providers{$list[0]};
         $OUT .= "# Force FlashStart to first provider\n";
-        $OUT .= $mark.":P               \$FW                        188.94.192.215\n";
-        $OUT .= $mark.":P               \$FW                        85.18.248.198\n";
+        $OUT .= $mark.":P               0.0.0.0/0                   188.94.192.215\n";
+        $OUT .= $mark.":P               0.0.0.0/0                   85.18.248.198\n";
     }
 }
