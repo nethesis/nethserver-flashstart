@@ -59,7 +59,7 @@ class FlashStartWS
         $this->client = new SoapClient($this->url);
         
         try {
-            $this->token = $this->client->Login(array('UserName' => $this->user, 'Password' => $this->password, 'ApplicationID' => 'HY'));
+            $this->token = $this->client->Login(array('UserName' => $this->user, 'Password' => $this->password, 'ApplicationID' => 'HS'));
             if ($this->token->TokenID == "null") {
                 throw new Exception('Bad credentials');
             }
