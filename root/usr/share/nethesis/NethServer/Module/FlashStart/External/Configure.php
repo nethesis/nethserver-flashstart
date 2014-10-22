@@ -50,6 +50,7 @@ class Configure extends \Nethgui\Controller\Table\AbstractAction
              }
 
          }
+         $password = strtolower(str_replace(':','',$password)); 
          $view['url'] = "http://cloud.flashstart.it/?x=login&autologinhy=1&u=$user&p=$password";
     }
 }
