@@ -41,6 +41,7 @@ $domainname = $domainname->type;
 $fqdn="$hostname.$domainname";
 
 
+$password = strtolower(str_replace(':','',$password));
 $url = "http://$user:$password@188.94.192.215/nic/update";
 $query = "hostname=$fqdn&wildcard=NOCHG&mx=NOCHG&backmx=NOCHG";
 
