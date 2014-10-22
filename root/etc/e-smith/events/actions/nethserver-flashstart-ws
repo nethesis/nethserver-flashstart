@@ -57,7 +57,6 @@ class FlashStartWS
             $this->url = $url;
         }
         $this->client = new SoapClient($this->url);
-        
         try {
             $this->token = $this->client->Login(array('UserName' => $this->user, 'Password' => $this->password, 'ApplicationID' => 'HS'));
             if ($this->token->TokenID == "null") {
@@ -168,7 +167,7 @@ if (!$password) {
     exit(1);
 }
 
-
+$password = strtolower(str_replace(':','',$password));
 $ws = new FlashStartWS($user,$password);
 $remote_profiles = $ws->getProfileList();
 
