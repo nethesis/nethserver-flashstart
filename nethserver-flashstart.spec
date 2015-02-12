@@ -1,7 +1,7 @@
 Summary: NethServer FlashStart integration
 Name: nethserver-flashstart
-Version: @@VERSION@@
-Release: @@RELEASE@@
+Version: 0.0.1
+Release: 1
 License: GPL
 URL: %{url_prefix}/%{name} 
 Source0: %{name}-%{version}.tar.gz
