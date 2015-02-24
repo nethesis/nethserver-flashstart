@@ -1,14 +1,15 @@
 #### FlashStart ACL ####
 {
-   my $mode = $squid{'Mode'} || "manual";
-
    my $db = esmith::ConfigDB->open_ro('flashstart') || return '';
+   my $green_mode = $squid{'GreenMode'} || "manual";
+   my $blue_mode = $squid{'BlueMode'} || "manual";
+
    foreach my $profile ( $db->get_all() ) {
         $type = $profile->prop('type');
         $name = $profile->key;
         $port = $profile->prop('Port') || next;
         if ($type eq 'user-profile') {
-            next unless ($mode eq 'authenticated');
+            next if ($green_mode ne 'authenticated' && $blue_mode ne 'authenticated');
         }
         $OUT.= "\n# Profile: $name ($port)\n";
         $OUT.="external_acl_type $name ttl=60 children-startup=2 children-max=10 %DST /usr/libexec/nethserver/squid-flashstart-acl $port\n";

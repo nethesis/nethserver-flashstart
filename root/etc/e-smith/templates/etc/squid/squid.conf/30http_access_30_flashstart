@@ -1,21 +1,40 @@
 #### FlashStart http_access ####
 {
-   my $mode = $squid{'Mode'} || "manual";
-   my $auth_acl = "";
-   if ($mode eq 'authenticated') {
-       $auth_acl = "authenticated";
-   }
+   use esmith::NetworksDB;
+   my $ndb = esmith::NetworksDB->open_ro();
+   my $green_mode = $squid{'GreenMode'} || "manual";
+   my $blue_mode = $squid{'BlueMode'} || "manual";
 
    my $db = esmith::ConfigDB->open_ro('flashstart') || return '';
    foreach my $profile ( $db->get_all() ) {
         $type = $profile->prop('type');
         $name = $profile->key;
         if ($type eq 'user-profile') {
-            next unless ($mode eq 'authenticated');
-        }
-  
-        $OUT.="http_access allow $auth_acl flashstart_group_$name flashstart_".$name."_allowed\n";
-        $OUT.="http_access deny flashstart_group_$name\n";
+            next if ($green_mode ne 'authenticated' && $blue_mode ne 'authenticated');
+
+            if ($blue_mode eq 'authenticated' && defined($ndb->blue())) {
+                $OUT.="http_access allow blue authenticated flashstart_group_$name flashstart_".$name."_allowed\n";
+                $OUT.="http_access deny blue !authenticated !flashstart_".$name."_allowed flashstart_group_$name\n";
+                $OUT.="http_access deny blue flashstart_group_$name all\n";
+            } elsif ($green_mode eq 'authenticated') {
+                $OUT.="http_access allow localnet authenticated flashstart_group_$name flashstart_".$name."_allowed\n";
+                $OUT.="http_access deny localnet !authenticated !flashstart_".$name."_allowed flashstart_group_$name\n";
+                $OUT.="http_access deny localnet flashstart_group_$name all\n";
+
+            } else {
+                $OUT.="http_access deny flashstart_group_$name\n";
+            }
+        } else {
+            if ( ($blue_mode eq 'manual' or $blue_mode eq 'transparent') && defined($ndb->blue()) ) {
+                $OUT.="http_access allow blue flashstart_group_$name flashstart_".$name."_allowed\n";
+                $OUT.="http_access deny blue flashstart_group_$name\n";
+            }
+
+            if ($green_mode eq 'manual' or $green_mode eq 'transparent') {
+                $OUT.="http_access allow localnet flashstart_group_$name flashstart_".$name."_allowed\n";
+                $OUT.="http_access deny localnet flashstart_group_$name\n";
+            }
+        } 
    }
  
 }
