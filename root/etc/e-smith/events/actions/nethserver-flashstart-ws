@@ -148,7 +148,7 @@ $bridge = false;
 foreach ($network_db as $key) {
     if ($key->props->role == 'green') {
         if ($key->type == 'bridge') {
-            $bridge = $key->props->device;
+            $bridge = $key->props->device?$key->props->device:$key->name;
         } else {
             $password = $key->props->hwaddr;
             break;
