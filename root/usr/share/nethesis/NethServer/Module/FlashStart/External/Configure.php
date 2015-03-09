@@ -36,7 +36,7 @@ class Configure extends \Nethgui\Controller\Table\AbstractAction
          foreach ($interfaces as $key => $props) {
              if ($props['role'] == 'green') {
                  if ($props['type'] == 'bridge') {
-                     $bridge = $props['device'];
+                     $bridge = $props['device']?$props['device']:$key;
                  } else {
                       $password = $props['hwaddr'];
                       break;
