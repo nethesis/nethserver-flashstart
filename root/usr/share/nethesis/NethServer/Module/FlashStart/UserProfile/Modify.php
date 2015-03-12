@@ -30,7 +30,7 @@ use Nethgui\Controller\Table\Modify as Table;
  */
 class Modify extends \Nethgui\Controller\Table\Modify
 {
-    private $ports = array( '53', '5402', '5403', '5353', '110', '143');
+    private $ports = array( '53', '5402', '5403', '110', '143');
 
     private function getFreePort()
     {
