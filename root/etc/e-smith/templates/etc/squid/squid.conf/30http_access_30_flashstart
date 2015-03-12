@@ -5,11 +5,13 @@
    my $green_mode = $squid{'GreenMode'} || "manual";
    my $blue_mode = $squid{'BlueMode'} || "manual";
 
+   my $flash_flag = 0;
    my $db = esmith::ConfigDB->open_ro('flashstart') || return '';
    foreach my $profile ( $db->get_all() ) {
         $type = $profile->prop('type');
         $name = $profile->key;
         if ($type eq 'user-profile') {
+            $flash_flag = 1;
             next if ($green_mode ne 'authenticated' && $blue_mode ne 'authenticated');
 
             if ($blue_mode eq 'authenticated' && defined($ndb->blue())) {
@@ -25,6 +27,7 @@
                 $OUT.="http_access deny flashstart_group_$name\n";
             }
         } else {
+            $flash_flag = 1;
             if ( ($blue_mode eq 'manual' or $blue_mode eq 'transparent') && defined($ndb->blue()) ) {
                 $OUT.="http_access allow blue flashstart_group_$name flashstart_".$name."_allowed\n";
                 $OUT.="http_access deny blue flashstart_group_$name\n";
@@ -35,6 +38,10 @@
                 $OUT.="http_access deny localnet flashstart_group_$name\n";
             }
         } 
+   }
+
+   if($flash_flag){
+       $OUT.="error_directory /usr/share/squid/errors/flashstart";
    }
  
 }
