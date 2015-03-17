@@ -7,6 +7,7 @@
 
    my $flash_flag = 0;
    my $db = esmith::ConfigDB->open_ro('flashstart') || return '';
+   $OUT='';
    foreach my $profile ( $db->get_all() ) {
         $type = $profile->prop('type');
         $name = $profile->key;
