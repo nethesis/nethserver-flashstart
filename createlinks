@@ -66,16 +66,32 @@ event_services($event, 'squid' => 'reload');
 # group-{create,delete,modify} events
 #
 
-event_actions(qw(group-create group-delete group-modify), qw(
-      nethserver-flashstart-squid-acls 20
-      nethserver-flashstart-ws 30
+event_actions($_, qw(
+    nethserver-flashstart-squid-acls 20
+    nethserver-flashstart-ws 30
+)) foreach(qw(
+    group-create
+    group-modify
+    group-delete
 ));
 
-event_templates(qw(group-create group-delete group-modify), qw(
-      /etc/squid/squid.conf
+
+
+event_templates($_, '/etc/squid/squid.conf'
+) foreach(qw(
+    group-create
+    group-modify
+    group-delete
 ));
 
-event_services(qw(group-create group-delete group-modify), 'squid' => 'reload');
+
+event_services($_, 
+    'squid' => 'reload'
+) foreach(qw(
+    group-create
+    group-modify
+    group-delete
+));
 
 
 #
