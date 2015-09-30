@@ -1,6 +1,6 @@
 Summary: NethServer FlashStart integration
 Name: nethserver-flashstart
-Version: 1.0.1
+Version: 1.0.2
 Release: 1%{?dist}
 License: GPL
 URL: %{url_prefix}/%{name} 
@@ -38,6 +38,9 @@ echo "%doc COPYING" >> %{name}-%{version}-filelist
 %defattr(-,root,root)
 
 %changelog
+* Wed Sep 30 2015 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 1.0.2-1
+- Fix group-delete and group-modify events [NH:3871]
+
 * Wed Mar 18 2015 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 1.0.1-1
 - Fix squid.conf syntax. NH #3536
 
