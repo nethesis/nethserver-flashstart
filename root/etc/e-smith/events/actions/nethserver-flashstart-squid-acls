@@ -41,7 +41,7 @@ foreach my $profile ( $fdb->get_all() ) {
             if ($hgroup->prop('type') eq 'host-group') {
                 my @list;
                 foreach my $host (split(',',$hgroup->prop('Members'))) {
-                   my $h = $hdb->get($host);
+                   my $h = $hdb->get($host) || next;
                    my $ip = $h->prop('IpAddress') || '';
                    next unless ($ip ne '');
                    push(@list, $ip);
