@@ -150,14 +150,14 @@ foreach ($network_db as $key) {
         if ($key->type == 'bridge') {
             $bridge = $key->props->device?$key->props->device:$key->name;
         } else {
-            $password = $key->props->hwaddr;
+            $password = trim(file_get_contents('/sys/class/net/'.$key->name.'/address'));
             break;
         }
     }
     // search for ethernet associated with the bridge 
     if ($bridge) {
         if ($key->props->role == 'bridged' && $key->props->bridge == $bridge) {
-            $password = $key->props->hwaddr;
+            $password = trim(file_get_contents('/sys/class/net/'.$key->name.'/address'));
             break;
         } 
     }

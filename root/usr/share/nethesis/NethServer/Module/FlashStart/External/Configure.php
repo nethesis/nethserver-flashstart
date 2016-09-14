@@ -38,13 +38,13 @@ class Configure extends \Nethgui\Controller\Table\AbstractAction
                  if ($props['type'] == 'bridge') {
                      $bridge = $props['device']?$props['device']:$key;
                  } else {
-                      $password = $props['hwaddr'];
+                      $password = trim(file_get_contents('/sys/class/net/'.$key.'/address'));
                       break;
                  }
              }
              if ($bridge) {
                  if ($props['role'] == 'bridged' && $props['bridge'] == $bridge) {
-                     $password = $props['hwaddr'];
+                     $password = trim(file_get_contents('/sys/class/net/'.$key.'/address'));
                      break;
                  }
              }
