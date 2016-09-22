@@ -1,6 +1,6 @@
 Summary: NethServer FlashStart integration
 Name: nethserver-flashstart
-Version: 1.0.2
+Version: 1.1.0
 Release: 1%{?dist}
 License: GPL
 URL: %{url_prefix}/%{name}
@@ -43,6 +43,9 @@ echo "%doc COPYING" >> %{name}-%{version}-filelist
 %dir %{_nsdbconfdir}/flashstart
 
 %changelog
+* Thu Sep 22 2016 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 1.1.0-1
+- Frist NS 7 release
+
 * Wed Sep 30 2015 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 1.0.2-1
 - Fix group-delete and group-modify events [NH:3871]
 
