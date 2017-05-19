@@ -1,0 +1,10 @@
+#
+# 90flashstart
+#
+{
+    my $status = $flashstart{'status'} || 'disabled';
+
+    if ($status eq 'enabled') {
+        $OUT .="dns_nameservers 188.94.192.215 45.76.84.187\n";
+    }
+}

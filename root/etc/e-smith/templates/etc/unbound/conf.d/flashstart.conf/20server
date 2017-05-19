@@ -1,0 +1,21 @@
+
+#
+# 20server
+#
+
+# Disable DNSSEC (Flashstart doesn't support it)
+server:
+      val-permissive-mode: yes
+      module-config: "iterator"
+{
+    use esmith::NetworksDB;
+    use esmith::util;
+    my $ndb = esmith::NetworksDB->open_ro();
+    my $roles = $flashstart{'Roles'} || 'green';
+    foreach my $role (split(",",$roles)) {
+        foreach my $interface ($ndb->get_by_role($role)) {
+            $OUT .= "      interface: ".$interface->prop('ipaddr')."\n";
+            $OUT .= "      access-control: ".esmith::util::computeLocalNetworkShortSpec($interface->prop('ipaddr'), $interface->prop('netmask'))." allow\n";
+        }
+    }
+}

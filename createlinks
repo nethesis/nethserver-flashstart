@@ -31,17 +31,16 @@ my $event = 'nethserver-flashstart-update';
 
 event_actions($event, qw(
       initialize-default-databases 00
-      nethserver-flashstart-squid-acls 20
-      nethserver-flashstart-ws 30
-      firewall-adjust 50
 ));
 
 event_templates($event, qw(
       /etc/squid/squid.conf
-      /etc/shorewall/tcrules
 ));
 
-event_services($event, 'squid' => 'restart');
+event_services($event, qw(
+      squid restart
+      unbound restart
+));
 
 #
 # nethserver-flashstart-save event
@@ -50,47 +49,17 @@ event_services($event, 'squid' => 'restart');
 $event = 'nethserver-flashstart-save';
 
 event_actions($event, qw(
-      nethserver-flashstart-squid-acls 20
-      nethserver-flashstart-ws 30
+      firewall-adjust 60
+      nethserver-flashstart-auth-ip 70
 ));
 
 event_templates($event, qw(
       /etc/squid/squid.conf
 ));
 
-event_services($event, 'squid' => 'reload');
-
-
-
-#
-# group-{create,delete,modify} events
-#
-
-event_actions($_, qw(
-    nethserver-flashstart-squid-acls 20
-    nethserver-flashstart-ws 30
-)) foreach(qw(
-    group-create
-    group-modify
-    group-delete
-));
-
-
-
-event_templates($_, '/etc/squid/squid.conf'
-) foreach(qw(
-    group-create
-    group-modify
-    group-delete
-));
-
-
-event_services($_, 
-    'squid' => 'reload'
-) foreach(qw(
-    group-create
-    group-modify
-    group-delete
+event_services($event, qw(
+      squid restart
+      unbound restart
 ));
 
 
@@ -101,25 +70,6 @@ event_services($_,
 $event = 'wan-uplink-update';
 
 event_actions($event, qw(
-      nethserver-flashstart-update-ip 90
-      ));
-
-
-#
-# firewall-objects-modify events
-#
-
-$event = 'firewall-objects-modify';
-
-event_actions($event, qw(
-      nethserver-flashstart-squid-acls 20
+      nethserver-flashstart-auth-ip 90
 ));
-
-event_templates( $event, qw(
-      /etc/squid/squid.conf
-));
-
-event_services($event, 'squid' => 'reload');
-
-
 

@@ -23,17 +23,17 @@ namespace NethServer\Module;
 /**
  * Implementation of FlashStart filters
  */
-class FlashStart extends \Nethgui\Controller\TabsController
+class FlashStart extends \Nethgui\Controller\AbstractController
 {
     protected function initializeAttributes(\Nethgui\Module\ModuleAttributesInterface $base)
     {
         return \Nethgui\Module\SimpleModuleAttributesProvider::extendModuleAttributes($base, 'Gateway', 50);
     }
 
-    public function initialize()
-    {
-        parent::initialize();
-        $this->loadChildrenDirectory();
-    }
+    ## TODO
 
+    protected function onParametersSaved($changes)
+    {
+        $this->getPlatform()->signalEvent('nethserver-flashstart-save');
+    }
 }

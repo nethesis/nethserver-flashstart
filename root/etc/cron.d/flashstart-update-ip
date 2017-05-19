@@ -1,1 +1,0 @@
-*/30 * * * * root /etc/e-smith/events/actions/nethserver-flashstart-update-ip

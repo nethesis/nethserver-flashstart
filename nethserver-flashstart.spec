@@ -1,14 +1,13 @@
 Summary: NethServer FlashStart integration
 Name: nethserver-flashstart
-Version: 1.1.0
+Version: 1.1.9999
 Release: 1%{?dist}
 License: GPL
 URL: %{url_prefix}/%{name}
 Source0: %{name}-%{version}.tar.gz
 BuildArch: noarch
 
-Requires: nethserver-squid
-Requires: php-soap, perl-Net-DNS
+Requires: nethserver-squid, nethserver-unbound
 
 BuildRequires: perl
 BuildRequires: nethserver-devtools
@@ -43,15 +42,3 @@ echo "%doc COPYING" >> %{name}-%{version}-filelist
 %dir %{_nsdbconfdir}/flashstart
 
 %changelog
-* Thu Sep 22 2016 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 1.1.0-1
-- Frist NS 7 release
-
-* Wed Sep 30 2015 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 1.0.2-1
-- Fix group-delete and group-modify events [NH:3871]
-
-* Wed Mar 18 2015 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 1.0.1-1
-- Fix squid.conf syntax. NH #3536
-
-* Thu Mar 12 2015 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 1.0.0-1
-- First release - NH #2870
-
