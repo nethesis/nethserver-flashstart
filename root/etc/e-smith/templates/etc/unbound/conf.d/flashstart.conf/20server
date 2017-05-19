@@ -3,16 +3,23 @@
 # 20server
 #
 
-# Disable DNSSEC (Flashstart doesn't support it)
-server:
-      val-permissive-mode: yes
-      module-config: "iterator"
-      do-not-query-localhost: no
 {
     use esmith::NetworksDB;
     use esmith::util;
     my $ndb = esmith::NetworksDB->open_ro();
     my $roles = $flashstart{'Roles'} || 'green';
+    my $status = $flashstart{'status'} || 'disabled';
+
+    if ($status eq 'disabled') {
+        return "# Flashstart disabled\n";
+    }
+
+    $OUT .= "# Disable DNSSEC (Flashstart doesn't support it)\n";
+    $OUT .= "server:\n";
+    $OUT .= "      val-permissive-mode: yes\n";
+    $OUT .= "      module-config: \"iterator\"\n";
+    $OUT .= "      do-not-query-localhost: no\n";
+
     foreach my $role (split(",",$roles)) {
         foreach my $interface ($ndb->get_by_role($role)) {
             $OUT .= "      # Allow queries from ".$interface->prop('role')."\n";
