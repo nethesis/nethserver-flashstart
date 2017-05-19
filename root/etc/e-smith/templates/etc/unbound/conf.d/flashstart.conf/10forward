@@ -2,6 +2,27 @@
 #
 # 10forward
 #
+
+# Forward queries for local domain to dnsamsq
+forward-zone:
+      name: "{{$DomainName}}"
+      forward-addr: 127.0.0.1
+
+{
+    use esmith::NetworksDB;
+    use esmith::util;
+    my $ndb = esmith::NetworksDB->open_ro();
+    foreach ($ndb->green()) {
+        $OUT .= "# Add reverse lookup for ".$_->key."\n";
+        $OUT .= "forward-zone:\n";
+        my $prefix = esmith::util::computeLocalNetworkPrefix($_->prop("ipaddr"), $_->prop("netmask"));
+        my @tmp = split(/\./, $prefix);
+        $prefix = join(".",reverse(@tmp)).".in-addr.arpa.";
+        $OUT .= "      name: \"$prefix\"\n";
+        $OUT .= "      forward-addr: 127.0.0.1\n";
+     }
+}
+
 # Forward all queries to Flashstart DNS
 forward-zone:
       name: "."

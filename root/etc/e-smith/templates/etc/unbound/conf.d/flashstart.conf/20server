@@ -15,8 +15,19 @@ server:
     my $roles = $flashstart{'Roles'} || 'green';
     foreach my $role (split(",",$roles)) {
         foreach my $interface ($ndb->get_by_role($role)) {
+            $OUT .= "      # Allow queries from ".$interface->prop('role')."\n";
             $OUT .= "      interface: ".$interface->prop('ipaddr')."\n";
             $OUT .= "      access-control: ".esmith::util::computeLocalNetworkShortSpec($interface->prop('ipaddr'), $interface->prop('netmask'))." allow\n";
         }
+    }
+
+    $OUT .= "\n# Add reverse local zones\n";
+    foreach ($ndb->green()) {
+        my $prefix = esmith::util::computeLocalNetworkPrefix($_->prop("ipaddr"), $_->prop("netmask"));
+        my @tmp = split(/\./, $prefix);
+        $prefix = join(".",reverse(@tmp)).".in-addr.arpa.";
+        $OUT .= "      private-domain: \"$prefix\"\n";
+        $OUT .= "      domain-insecure: \"$prefix\"\n";
+        $OUT .= "      local-zone: \"$prefix\" transparent\n";
     }
 }
