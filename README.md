@@ -10,9 +10,33 @@ Unbound is configured as follow:
 - Forward reverse queries for all green interfaces to dnsmasq
 - Forward every remaining query to Flashstart DNS (``188.94.192.215`` and ``45.76.84.187``)
 
-**WARNING:** When this package is installed, nethserver-mail-filter will not work.
+Please note that queries from the server itself are never filtered.
 
-## Usage from commandl ine
+*Note:* When this package is installed, DNSBL from nethserver-mail-filter may not correctly work.
+
+### Database
+
+Properties:
+- ``Bypass``: comma-separeted list of firewall object host which are not redirect to Unbound.
+  Flashstart DNS can't be bypassed if the client is using Squid to surf the web.
+- ``Password``: password for Flashstart service
+- ``Roles``: comma-separated list of Roles, default to ``green``. The ``red`` role is not allowed.
+- ``Username``: user name for Flashstart service
+- ``status``: can be ``enabled`` or ``disabled``. Default to ``disabled``.
+
+Example:
+```
+flashstart=configuration
+    Bypass=
+    Password=11223344
+    Roles=green
+    Username=test@nethesis.it
+    status=enabled
+
+```
+
+
+## Usage from command line
 
 After registering at http://flashstart.nethesis.it,
 configure Flashstart and enable access to Unbound:
