@@ -17,7 +17,7 @@ Please note that queries from the server itself are never filtered.
 ### Database
 
 Properties:
-- ``Bypass``: comma-separeted list of firewall object host which are not redirect to Unbound.
+- ``Bypass``: comma-separeted list of firewall object (or ip addresses) which are not redirect to Unbound.
   Flashstart DNS can't be bypassed if the client is using Squid to surf the web.
 - ``Password``: password for Flashstart service
 - ``Roles``: comma-separated list of Roles, default to ``green``. The ``red`` role is not allowed.
