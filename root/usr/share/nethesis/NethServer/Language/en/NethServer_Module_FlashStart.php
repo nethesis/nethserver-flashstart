@@ -5,6 +5,9 @@
 $L['FlashStart_Description'] = 'Cloud filter configuration';
 $L['FlashStart_Tags'] = 'FlashStart cloud filter profile';
 $L['FlashStart_Title'] = 'Cloud content filter';
+$L['FlashStartReport_Description'] = 'Cloud filter report';
+$L['FlashStartReport_Tags'] = 'FlashStart cloud filter profile report';
+$L['FlashStartReport_Title'] = 'Cloud content filter';
 $L['FlashStart_header'] = 'FlashStart cloud content filter';
 $L['Flashstart_Registration'] = 'Before using FlashStart you need to create an account by accessing the site below.';
 $L['FlashStartSite_label'] = 'Register and configure filter';

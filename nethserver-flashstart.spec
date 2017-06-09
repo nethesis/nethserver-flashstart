@@ -9,7 +9,7 @@ BuildArch: noarch
 
 Requires: nethserver-squid, nethserver-unbound
 
-BuildRequires: perl
+BuildRequires: perl, php-soap
 BuildRequires: nethserver-devtools
 
 %description
