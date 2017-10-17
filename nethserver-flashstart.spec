@@ -1,6 +1,6 @@
 Summary: NethServer FlashStart integration
 Name: nethserver-flashstart
-Version: 2.0.0
+Version: 2.0.1
 Release: 1%{?dist}
 License: GPL
 URL: %{url_prefix}/%{name}
@@ -42,6 +42,9 @@ echo "%doc COPYING" >> %{name}-%{version}-filelist
 %dir %{_nsdbconfdir}/flashstart
 
 %changelog
+* Tue Oct 17 2017 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 2.0.1-1
+- Add customizable UpdateInterval
+
 * Fri Jun 23 2017 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 2.0.0-1
 - New implementation based on unbound - Nethesis/dev#5138
 
