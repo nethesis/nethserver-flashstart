@@ -23,6 +23,7 @@ Properties:
 - ``Roles``: comma-separated list of Roles, default to ``green``. The ``red`` role is not allowed.
 - ``Username``: user name for Flashstart service
 - ``status``: can be ``enabled`` or ``disabled``. Default to ``disabled``.
+- ``UpdateInterval``: a cronjob to update the WAN IP address is executed each ``UpdateInterval`` minutes. Default 30.
 
 Example:
 ```
@@ -47,6 +48,13 @@ config setprop unbound access $(config getprop flashstart Roles)
 config setprop flashstart Password <pass>
 config setprop flashstart Username <user>
 
+signal-event nethserver-flashstart-save
+```
+
+Changing the update interval:
+
+```
+config setprop flashstart UpdateInterval 5
 signal-event nethserver-flashstart-save
 ```
 
