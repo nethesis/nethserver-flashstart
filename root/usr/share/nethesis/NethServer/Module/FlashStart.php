@@ -102,7 +102,7 @@ class FlashStart extends \Nethgui\Controller\AbstractController
         if (!$this->getRequest()->isMutation()) {
             return;
         }
-        $ipValidator = $this->createValidator(Validate::IPv4);
+        $ipValidator = $this->createValidator()->orValidator($this->createValidator()->cidrBlock(), $this->createValidator(Validate::IPv4));
         $ips = array_filter(preg_split('/[,\s]+/', $this->parameters['Bypass']));
         foreach ($ips as $ip){
             if( ! $ipValidator->evaluate($ip)) {
