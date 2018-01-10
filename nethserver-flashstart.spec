@@ -1,6 +1,6 @@
 Summary: NethServer FlashStart integration
 Name: nethserver-flashstart
-Version: 2.0.1
+Version: 2.0.2
 Release: 1%{?dist}
 License: GPL
 URL: %{url_prefix}/%{name}
@@ -42,6 +42,9 @@ echo "%doc COPYING" >> %{name}-%{version}-filelist
 %dir %{_nsdbconfdir}/flashstart
 
 %changelog
+* Wed Jan 10 2018 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 2.0.2-1
+- FlashStart: allow CIDR bypass - Nethesis/dev#5276
+
 * Tue Oct 17 2017 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 2.0.1-1
 - Add customizable UpdateInterval
 
