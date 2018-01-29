@@ -31,7 +31,7 @@
     $OUT .= "\n# Forward all queries to Flashstart DNS\n";
     $OUT .= "forward-zone:\n";
     $OUT .= "      name: \".\"\n";
-    $OUT .= "      forward-addr: 188.94.192.215\n";
-    $OUT .= "      forward-addr: 45.76.84.187\n";
+    $OUT .= "      forward-addr: 185.236.104.104\n";
+    $OUT .= "      forward-addr: 185.236.105.105\n";
 }
 
