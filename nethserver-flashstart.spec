@@ -1,6 +1,6 @@
 Summary: NethServer FlashStart integration
 Name: nethserver-flashstart
-Version: 2.0.2
+Version: 2.0.3
 Release: 1%{?dist}
 License: GPL
 URL: %{url_prefix}/%{name}
@@ -42,6 +42,9 @@ echo "%doc COPYING" >> %{name}-%{version}-filelist
 %dir %{_nsdbconfdir}/flashstart
 
 %changelog
+* Wed Feb 07 2018 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 2.0.3-1
+- FlashStart: change upstream DNS - Nethesis/dev#5307
+
 * Wed Jan 10 2018 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 2.0.2-1
 - FlashStart: allow CIDR bypass - Nethesis/dev#5276
 
