@@ -5,6 +5,6 @@
     my $status = $flashstart{'status'} || 'disabled';
 
     if ($status eq 'enabled') {
-        $OUT .="dns_nameservers 188.94.192.215 45.76.84.187\n";
+        $OUT .="dns_nameservers 185.236.104.104 185.236.105.105\n";
     }
 }
