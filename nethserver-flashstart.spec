@@ -1,6 +1,6 @@
 Summary: NethServer FlashStart integration
 Name: nethserver-flashstart
-Version: 2.0.3
+Version: 2.0.4
 Release: 1%{?dist}
 License: GPL
 URL: %{url_prefix}/%{name}
@@ -42,6 +42,10 @@ echo "%doc COPYING" >> %{name}-%{version}-filelist
 %dir %{_nsdbconfdir}/flashstart
 
 %changelog
+* Thu Apr 19 2018 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 2.0.4-1
+- Remove old unused inventory plugin - Nethesis/dev#5354
+- FlashStart: change upstream DNS in squid configuration - Nethesis/dev#5353
+
 * Wed Feb 07 2018 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 2.0.3-1
 - FlashStart: change upstream DNS - Nethesis/dev#5307
 
