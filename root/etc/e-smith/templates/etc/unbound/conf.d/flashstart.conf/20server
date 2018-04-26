@@ -22,9 +22,20 @@
 
     foreach my $role (split(",",$roles)) {
         foreach my $interface ($ndb->get_by_role($role)) {
-            $OUT .= "      # Allow queries from ".$interface->prop('role')."\n";
-            $OUT .= "      interface: ".$interface->prop('ipaddr')."\n";
-            $OUT .= "      access-control: ".esmith::util::computeLocalNetworkShortSpec($interface->prop('ipaddr'), $interface->prop('netmask'))." allow\n";
+            if ($role eq 'hotspot'){
+                my ($network, $netbit) = split(/\//, $hsnetwork);
+                my $mask = esmith::util::computeNetmaskFromBits($netbit);
+                my $prefix = esmith::util::computeLocalNetworkPrefix($network, $mask);
+
+                $OUT .= "      # Allow queries from ".$interface->prop('role')."\n";
+                $OUT .= "      interface: ".$prefix."1\n"; # HACK: add 1 to Hotspot network
+                $OUT .= "      access-control: ".$hsnetwork." allow\n\n";
+            }
+            else{
+                $OUT .= "      # Allow queries from ".$interface->prop('role')."\n";
+                $OUT .= "      interface: ".$interface->prop('ipaddr')."\n";
+                $OUT .= "      access-control: ".esmith::util::computeLocalNetworkShortSpec($interface->prop('ipaddr'), $interface->prop('netmask'))." allow\n\n";
+            }
         }
     }
 
