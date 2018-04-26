@@ -36,7 +36,7 @@ class FlashStart extends \Nethgui\Controller\AbstractController
     {
         $roles = array();
         foreach ($this->getPlatform()->getDatabase('networks')->getAll() as $key => $props) {
-            if (isset($props['role']) && ($props['role'] == 'green' || $props['role'] == 'blue')) {
+            if (isset($props['role']) && ($props['role'] == 'green' || $props['role'] == 'blue' || $props['role'] == 'hotspot')) {
                 $roles[$props['role']] = '';
             }
         }
