@@ -18,6 +18,7 @@ $L['Password_label'] = 'Password';
 $L['Roles_label'] = 'Filtra le reti seguenti:';
 $L['green_label'] = 'Reti locali (interfacce green)';
 $L['blue_label'] = 'Reti ospiti (interfacce blue)';
+$L['hotspot_label'] = 'Rete hotspot';
 $L['Bypass_label'] = 'Bypass IP sorgente';
 $L['valid_bypass'] = '"${0}" non è un IP valido';
 $L['bad_login'] = 'Nome utente e/o password non validi.';
