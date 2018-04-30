@@ -9,7 +9,7 @@
     my $ndb = esmith::NetworksDB->open_ro();
     my $roles = $flashstart{'Roles'} || 'green';
     my $status = $flashstart{'status'} || 'disabled';
-    my $hsnetwork = '';
+    my $hsnetwork = $dedalo{'Network'} || $hotspot{'DynamicNet'};
 
     if ($status eq 'disabled') {
         return "# Flashstart disabled\n";
