@@ -95,7 +95,7 @@ class FlashStartWS
                 $array_report_param["CustomerEmail"]=$customer_email;
                 $array_report_param["DateFrom"]=$date_from;
                 $array_report_param["DateTo"]=$date_to;
-                $array_report_param["PortNumber"]=0;
+                $array_report_param["ProfilePort"]=0;
                 $array_report_param["TimeFrom"]="00:00:00";
                 $array_report_param["TimeTo"]="00:00:00";
                 $array_report_param["ViewDetails"]=0;
