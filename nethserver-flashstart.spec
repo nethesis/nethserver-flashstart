@@ -1,6 +1,6 @@
 Summary: NethServer FlashStart integration
 Name: nethserver-flashstart
-Version: 2.1.0
+Version: 2.1.1
 Release: 1%{?dist}
 License: GPL
 URL: %{url_prefix}/%{name}
@@ -42,6 +42,10 @@ echo "%doc COPYING" >> %{name}-%{version}-filelist
 %dir %{_nsdbconfdir}/flashstart
 
 %changelog
+* Thu Jan 17 2019 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 2.1.1-1
+- flashstart: can't disable cloud content filter when the connection is down - Bug Nethesis/dev#5561
+- weekly report: flashstart section not working - Bug Nethesis/dev#5560
+
 * Mon May 28 2018 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 2.1.0-1
 - Flashstart : add hotspot support - Nethesis/dev#5393
 
