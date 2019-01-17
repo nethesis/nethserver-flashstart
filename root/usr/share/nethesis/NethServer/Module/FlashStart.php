@@ -109,7 +109,7 @@ class FlashStart extends \Nethgui\Controller\AbstractController
                 $report->addValidationErrorMessage($this, 'Bypass', 'valid_bypass', array($ip));
             }
         }
-        if (!$this->validateFlashStartLogin($this->parameters['Username'], $this->parameters['Password'])) {
+        if ($this->parameters['status'] == 'enabled' && !$this->validateFlashStartLogin($this->parameters['Username'], $this->parameters['Password'])) {
             $report->addValidationErrorMessage($this, 'Password', "bad_login");
         }    
     }
