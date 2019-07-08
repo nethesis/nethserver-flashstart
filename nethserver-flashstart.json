@@ -1,0 +1,26 @@
+{
+  "id": "nethserver-flashstart",
+  "name": "FlashStart",
+  "summary": "Collini DNS filter",
+  "description": "Collini DNS filter",
+  "url": "",
+  "homepage": "https://github.com/nethesis/nethserver-flashstart",
+  "provides": ["nethserver-flashstart"],
+  "release": {
+    "version": "1.0.0"
+  },
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/NethServer/dev/issues"
+  },
+  "author": {
+    "name": "Edoardo Spadoni",
+    "url": "https://github.com/nethesis/nethserver-flashstart",
+    "email": "edoardo.spadoni@nethesis.it"
+  },
+  "infoapi": {
+    "path": "nethserver-flashstart/read"
+  },
+  "icon": "logo.png",
+  "external": true
+}
