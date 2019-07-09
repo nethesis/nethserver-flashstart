@@ -1,6 +1,6 @@
 Summary: NethServer FlashStart integration
 Name: nethserver-flashstart
-Version: 2.1.1
+Version: 2.1.2
 Release: 1%{?dist}
 License: GPL
 URL: %{url_prefix}/%{name}
@@ -42,6 +42,9 @@ install -v -m 755 -D api/read %{buildroot}/usr/libexec/nethserver/api/%{name}/re
 %doc COPYING
 
 %changelog
+* Tue Jul 09 2019 Davide Principi <davide.principi@nethesis.it> - 2.1.2-1
+- Cockpit Enterprise legacy apps implementation - nethesis/dev#5667
+
 * Thu Jan 17 2019 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 2.1.1-1
 - flashstart: can't disable cloud content filter when the connection is down - Bug Nethesis/dev#5561
 - weekly report: flashstart section not working - Bug Nethesis/dev#5560
