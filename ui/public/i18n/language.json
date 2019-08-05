@@ -29,7 +29,10 @@
         "bug_tracker": "Bug tracker"
     },
     "dashboard":{
-        "title": "Dashboard"
+        "title": "Dashboard",
+        "error_retrieving_dashboard_data": "Error retrieving dashboard data",
+        "flashstart_enabled": "FlashStart enabled",
+        "authentication_status": "Authentication status"
     },
     "docs": {
     },

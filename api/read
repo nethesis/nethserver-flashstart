@@ -48,6 +48,16 @@ def get_network_roles():
     network_roles = list(dict.fromkeys(network_roles))
     return { 'networkRoles': network_roles }
 
+def login_flashstart_ok(username, password):
+    bash_command = "/usr/bin/curl -sS http://ddns.flashstart.it/nic/update?hostname=&myip=&wildcard=NOCHG&username=%s&password=%s" % (username, password)
+    process = subprocess.Popen(bash_command.split(), stdout=subprocess.PIPE)
+    output, error = process.communicate()
+
+    if output.rstrip() == 'good':
+        return True
+    else:
+        return False
+
 try:
     line = fileinput.input()[0].rstrip()
     input_json = simplejson.loads(line)
@@ -61,6 +71,14 @@ try:
         config = get_network_roles()
         output = simplejson.dumps({ 'configuration': config })
         print (output)
+    elif config == 'dashboard':
+        flashstart_config = get_config('flashstart')
+        username = flashstart_config['props']['Username']
+        password = flashstart_config['props']['Password']
+        flashstart_enabled = flashstart_config['props']['status']
+        is_login_ok = login_flashstart_ok(username, password)
+        output = simplejson.dumps({ 'configuration': { 'flashstartEnabled': flashstart_enabled, 'loginOk': is_login_ok } })
+        print(output)
     else:
         raise ValueError("config must be one of 'flashstart' or 'networkRoles'")
 except Exception, e:
