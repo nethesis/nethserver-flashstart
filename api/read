@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/python
 
 #
 # Copyright (C) 2019 Nethesis S.r.l.
@@ -20,20 +20,67 @@
 # along with NethServer.  If not, see COPYING.
 #
 
-use strict;
-use NethServer::ApiTools;
-use JSON;
+import sys
+import fileinput
+import subprocess
+import simplejson
 
-my $output = {};
-my $input = NethServer::ApiTools::readInput();
+def get_config(config_name):
+    bash_command = "/sbin/e-smith/config getjson %s" % config_name
+    process = subprocess.Popen(bash_command.split(), stdout=subprocess.PIPE)
+    output, error = process.communicate()
+    config_json = simplejson.loads(output)
+    return config_json
 
-my $action = $input->{'action'};
+def get_network_roles():
+    bash_command = "/sbin/e-smith/db networks getjson"
+    process = subprocess.Popen(bash_command.split(), stdout=subprocess.PIPE)
+    output, error = process.communicate()
+    db_networks = simplejson.loads(output)
+    roles_filter = [ "green", "blue", "hotspot" ]
+    network_roles = []
 
-if ($action eq 'app-info') {
-    my $host = $input->{'location'}->{'hostname'};
-    $output = {
-        'url' => "https://$host:980/en-US/FlashStart",
-    };
-}
+    for elem in db_networks:
+        if "role" in elem["props"] and (elem["props"]["role"] in roles_filter):
+            network_roles.append(elem["props"]["role"])
+    
+    # remove duplicates
+    network_roles = list(dict.fromkeys(network_roles))
+    return { 'networkRoles': network_roles }
 
-print encode_json($output);
+def login_flashstart_ok(username, password):
+    bash_command = "/usr/bin/curl -sS http://ddns.flashstart.it/nic/update?hostname=&myip=&wildcard=NOCHG&username=%s&password=%s" % (username, password)
+    process = subprocess.Popen(bash_command.split(), stdout=subprocess.PIPE)
+    output, error = process.communicate()
+
+    if output.rstrip() == 'good':
+        return True
+    else:
+        return False
+
+try:
+    line = fileinput.input()[0].rstrip()
+    input_json = simplejson.loads(line)
+    config = input_json["config"]
+
+    if config == 'flashstart':
+        config = get_config('flashstart')
+        output = simplejson.dumps({ 'configuration': config })
+        print (output)
+    elif config == 'networkRoles':
+        config = get_network_roles()
+        output = simplejson.dumps({ 'configuration': config })
+        print (output)
+    elif config == 'dashboard':
+        flashstart_config = get_config('flashstart')
+        username = flashstart_config['props']['Username']
+        password = flashstart_config['props']['Password']
+        flashstart_enabled = flashstart_config['props']['status']
+        is_login_ok = login_flashstart_ok(username, password)
+        output = simplejson.dumps({ 'configuration': { 'flashstartEnabled': flashstart_enabled, 'loginOk': is_login_ok } })
+        print(output)
+    else:
+        raise ValueError("config must be one of 'flashstart' or 'networkRoles'")
+except Exception, e:
+    print simplejson.dumps({ 'error': "%s" % e })
+    sys.exit(1)

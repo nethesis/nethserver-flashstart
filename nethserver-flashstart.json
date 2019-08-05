@@ -14,13 +14,9 @@
     "url": "https://github.com/nethesis/dev/issues"
   },
   "author": {
-    "name": "Edoardo Spadoni",
+    "name": "Andrea Leardini",
     "url": "https://github.com/nethesis/nethserver-flashstart",
-    "email": "edoardo.spadoni@nethesis.it"
+    "email": "andrea.leardini@nethesis.it"
   },
-  "infoapi": {
-    "path": "nethserver-flashstart/read"
-  },
-  "icon": "logo.png",
-  "external": true
+  "icon": "logo.png"
 }

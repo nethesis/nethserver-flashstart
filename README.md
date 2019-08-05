@@ -67,3 +67,123 @@ dig -t A +noall +answer <domain> @localhost -p $(config getprop unbound UDPPort)
 ```
 
 If ``<domain>`` is blocked, the server will respond ``188.94.192.215`` or ``45.76.84.187``.
+
+## Cockpit API
+
+### `read` API
+
+This api can return:
+
+- `flashstart` configuration
+- the list of network roles configured on the system: only `green`, `blue` and `hotspot` roles are considered.
+
+#### Input
+
+- `config`: `flashstart`, `networkRoles` or `dashboard`
+
+#### Input example (`flashstart`)
+
+```
+{
+  "config": "flashstart"
+}
+```
+
+#### Output example (`flashstart`)
+```
+{
+  "configuration": {
+    "type": "configuration",
+    "name": "flashstart",
+    "props": {
+      "status": "enabled",
+      "Username": "user@company.com",
+      "Roles": "green",
+      "Bypass": "10.20.30.40,11.22.33.0/24",
+      "UpdateInterval": "30",
+      "Password": "s3cr3t!"
+    }
+  }
+}
+```
+
+#### Input example (`networkRoles`)
+```
+{
+  "config": "networkRoles"
+}
+```
+
+#### Output example (`networkRoles`)
+```
+{
+  "configuration": {
+    "networkRoles": [
+      "blue",
+      "green"
+    ]
+  }
+}
+```
+
+#### Input example (`dashboard`)
+
+```
+{
+  "config": "dashboard"
+}
+```
+
+#### Output example (`dashboard`)
+```
+{
+  "configuration": {
+    "loginOk": true,
+    "flashstartEnabled": "enabled"
+  }
+}
+```
+
+### `validate` API
+
+This api validates the input before updating `flashstart` configuration.
+
+#### Input
+
+- `enableFlashstart`: toggles FlashStart activation, can be `enabled` or `disabled`
+- `username`: username of FlashStart account
+- `password`: password of FlashStart account
+- `rolesFilter`: specifies on which types of networks FlashStart filter should be enabled
+- `bypass`: list of source IP addresses and/or networks in CIDR notation on which FlashStart filter should be disabled
+
+#### Input example
+
+```
+{
+  "enableFlashstart": "enabled",
+  "username": "user@company.com",
+  "password": "s3cr3t!",
+  "rolesFilter": [
+    "green"
+  ],
+  "bypass": [
+    "10.20.30.40",
+    "11.22.33.0/24"
+  ]
+}
+```
+
+#### Output example
+```
+{
+  "state": "success"
+}
+```
+
+### `update` API
+
+This api updates `flashstart` configuration.
+
+#### Input
+
+Same input as `validate`.
