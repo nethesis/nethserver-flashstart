@@ -70,7 +70,7 @@ If ``<domain>`` is blocked, the server will respond ``188.94.192.215`` or ``45.7
 
 ## Cockpit API
 
-### read
+### `read` API
 
 This api can return:
 
@@ -79,7 +79,7 @@ This api can return:
 
 #### Input
 
-- `config`: `flashstart` or `networkRoles`
+- `config`: `flashstart`, `networkRoles` or `dashboard`
 
 #### Input example (`flashstart`)
 
@@ -126,7 +126,25 @@ This api can return:
 }
 ```
 
-### valdidate
+#### Input example (`dashboard`)
+
+```
+{
+  "config": "dashboard"
+}
+```
+
+#### Output example (`dashboard`)
+```
+{
+  "configuration": {
+    "loginOk": true,
+    "flashstartEnabled": "enabled"
+  }
+}
+```
+
+### `validate` API
 
 This api validates the input before updating `flashstart` configuration.
 
@@ -162,7 +180,7 @@ This api validates the input before updating `flashstart` configuration.
 }
 ```
 
-### update
+### `update` API
 
 This api updates `flashstart` configuration.
 
