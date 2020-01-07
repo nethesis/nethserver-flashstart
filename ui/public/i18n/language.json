@@ -33,8 +33,8 @@
         "error_retrieving_dashboard_data": "Error retrieving dashboard data",
         "flashstart_enabled": "FlashStart enabled",
         "authentication_status": "Authentication status",
-        "cloud_portal": "Cloud portal",
-        "access": "Access"
+        "cloud_portal": "Filter configuration",
+        "access": "Edit on cloud portal"
     },
     "docs": {
     },
