@@ -32,7 +32,9 @@
         "title": "Dashboard",
         "error_retrieving_dashboard_data": "Error retrieving dashboard data",
         "flashstart_enabled": "FlashStart enabled",
-        "authentication_status": "Authentication status"
+        "authentication_status": "Authentication status",
+        "cloud_portal": "Cloud portal",
+        "access": "Access"
     },
     "docs": {
     },
