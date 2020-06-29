@@ -79,8 +79,12 @@ try:
         is_login_ok = login_flashstart_ok(username, password)
         output = simplejson.dumps({ 'configuration': { 'flashstartEnabled': flashstart_enabled, 'loginOk': is_login_ok } })
         print(output)
+    elif config == 'ftl':
+        config = get_config('ftl')
+        output = simplejson.dumps({ 'configuration': config })
+        print (output)
     else:
-        raise ValueError("config must be one of 'flashstart' or 'networkRoles'")
+        raise ValueError("invalid config: {}".format(config))
 except Exception, e:
     print simplejson.dumps({ 'error': "%s" % e })
     sys.exit(1)
