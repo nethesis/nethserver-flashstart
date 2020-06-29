@@ -8,6 +8,17 @@
       {{ errorMessage }}.
     </div>
 
+    <!-- DNS blacklist enabled warning -->
+    <div v-if="ftlEnabled" class="alert alert-warning alert-dismissable">
+      <span class="pficon pficon-warning-triangle-o"></span>
+      <strong>{{$t('warning')}}: </strong>
+      <span>{{$t('dashboard.dns_blacklist_enabled')}}.
+        <a href="/nethserver#/applications/nethserver-blacklist" target="_blank">
+          {{$t('dashboard.configure_threat_shield')}}
+        </a>
+      </span>
+    </div>
+
     <div v-if="!uiLoaded" class="spinner spinner-lg"></div>
     <div v-if="uiLoaded">
       <form class="form-horizontal" v-on:submit.prevent="btSaveClick">
@@ -57,13 +68,15 @@ export default {
   },
   mounted() {
     this.getConfig()
+    this.getFtlEnabled();
   },
   data() {
     return {
       uiLoaded: true,
       errorMessage: null,
       loginOk: false,
-      flashstartEnabled: false
+      flashstartEnabled: false,
+      ftlEnabled: false,
     };
   },
   methods: {
@@ -90,6 +103,24 @@ export default {
       console.error(errorMessage, error) /* eslint-disable-line no-console */
       this.errorMessage = errorMessage
     },
+    getFtlEnabled() {
+      // Check if DNS blacklist is enabled
+      var ctx = this;
+      nethserver.exec(
+        ["nethserver-flashstart/read"],
+        { "config": "ftl" },
+        null,
+        function(success) {
+          var output = JSON.parse(success);
+          const status = output.configuration.props.status === 'enabled';
+          const roles = output.configuration.props.Roles;
+          ctx.ftlEnabled = status && roles;
+        },
+        function(error) {
+          console.error(error);
+        }
+      );
+    }
   }
 }
 </script>

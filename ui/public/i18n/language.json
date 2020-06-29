@@ -34,7 +34,9 @@
         "flashstart_enabled": "FlashStart enabled",
         "authentication_status": "Authentication status",
         "cloud_portal": "Filter configuration",
-        "access": "Edit on cloud portal"
+        "access": "Edit on cloud portal",
+        "dns_blacklist_enabled": "FlashStart cannot operate while Threat shield DNS blacklist is enabled on some zones",
+        "configure_threat_shield": "Configure Threat shield"
     },
     "docs": {
     },
