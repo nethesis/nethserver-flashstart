@@ -50,6 +50,11 @@ chmod +x %{buildroot}/usr/libexec/nethserver/api/%{name}/*
 %dir %{_nsdbconfdir}/flashstart
 %doc COPYING
 
+%postun
+if [ "$1" = "0" ]; then
+   rm -f /etc/cron.d/flashstart-auth-ip
+fi
+
 %changelog
 * Wed Jan 08 2020 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 2.2.1-1
 - Flashstart Cockpit UI: add link to flashstart management page - nethesis/dev#5749
