@@ -1,6 +1,6 @@
 Summary: NethServer FlashStart integration
 Name: nethserver-flashstart
-Version: 2.2.1
+Version: 2.2.2
 Release: 1%{?dist}
 License: GPL
 URL: %{url_prefix}/%{name}
@@ -51,6 +51,10 @@ chmod +x %{buildroot}/usr/libexec/nethserver/api/%{name}/*
 %doc COPYING
 
 %changelog
+* Fri Jul 10 2020 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 2.2.2-1
+- Cron email after Flashstart removal - Bug nethesis/dev#5841
+- DNS Blacklists for threat shield   - NethServer/dev#6212
+
 * Wed Jan 08 2020 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 2.2.1-1
 - Flashstart Cockpit UI: add link to flashstart management page - nethesis/dev#5749
 
