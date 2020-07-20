@@ -249,6 +249,7 @@
         this.errorMessage = null
       },
       showErrorMessage(errorMessage, error) {
+        this.uiLoaded = true;
         console.error(errorMessage, error) /* eslint-disable-line no-console */
         this.errorMessage = errorMessage
       },
@@ -343,12 +344,19 @@
           null,
           function(success) {
             var output = JSON.parse(success);
-            const status = output.configuration.props.status === 'enabled';
-            const roles = output.configuration.props.Roles;
-            ctx.ftlEnabled = status && roles;
+
+            if (output.configuration.props) {
+              const status = output.configuration.props.status === 'enabled';
+              const roles = output.configuration.props.Roles;
+              ctx.ftlEnabled = status && roles;
+            } else {
+              // DNS blacklist not installed
+              ctx.ftlEnabled = false;
+            }
           },
           function(error) {
             console.error(error);
+            ctx.uiLoaded = true;
           }
         );
       }
