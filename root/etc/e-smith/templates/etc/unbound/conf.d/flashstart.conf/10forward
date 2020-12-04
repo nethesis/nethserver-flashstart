@@ -33,5 +33,6 @@
     $OUT .= "      name: \".\"\n";
     $OUT .= "      forward-addr: 185.236.104.104\n";
     $OUT .= "      forward-addr: 185.236.105.105\n";
+    $OUT .= "      forward-first: yes";
 }
 
