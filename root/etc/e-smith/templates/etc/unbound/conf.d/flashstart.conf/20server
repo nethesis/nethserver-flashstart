@@ -6,6 +6,7 @@
 {
     use esmith::NetworksDB;
     use esmith::util;
+    use NethServer::TrustedNetworks;
     my $ndb = esmith::NetworksDB->open_ro();
     my $roles = $flashstart{'Roles'} || 'green';
     my $status = $flashstart{'status'} || 'disabled';
@@ -48,6 +49,12 @@
                 $OUT .= "      access-control: ".esmith::util::computeLocalNetworkShortSpec($interface->prop('ipaddr'), $interface->prop('netmask'))." allow\n\n";
             }
         }
+
+        foreach $net (NethServer::TrustedNetworks::list_cidr()) {
+            $OUT .= "      # Allow queries from trusted network $net\n";
+            $OUT .= "      access-control: ".$net." allow\n\n";
+        }
+
     }
 
     $OUT .= "\n# Add reverse local zones\n";
