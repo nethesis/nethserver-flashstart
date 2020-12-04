@@ -88,9 +88,6 @@ if enable_flashstart == 'enabled':
     else:
         username = input_json[username_p]
 
-        if not re.match(r"[^@]+@[^@]+\.[^@]+", username):
-            invalid_attributes.append(invalid_attribute(username_p, "invalid"))
-
     # password
     if (password_p not in input_json) or (not input_json[password_p]):
         invalid_attributes.append(invalid_attribute(password_p, "empty"))
