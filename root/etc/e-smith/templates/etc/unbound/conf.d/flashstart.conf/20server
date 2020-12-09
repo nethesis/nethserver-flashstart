@@ -6,6 +6,7 @@
 {
     use esmith::NetworksDB;
     use esmith::util;
+    use NethServer::TrustedNetworks;
     my $ndb = esmith::NetworksDB->open_ro();
     my $roles = $flashstart{'Roles'} || 'green';
     my $status = $flashstart{'status'} || 'disabled';
@@ -22,7 +23,17 @@
     $OUT .= "      do-not-query-localhost: no\n";
 
     foreach my $role (split(",",$roles)) {
-        foreach my $interface ($ndb->get_by_role($role)) {
+        my @interfaces = $ndb->get_by_role($role);
+
+        foreach $alias ($ndb->get_all_by_prop('type', 'alias')) {
+            my ($parent, $index) = split(/:/, $alias->key);
+            my $parent_role = $ndb->get_prop($parent, 'role') || '';
+            if ($role eq $parent_role) {
+                push(@interfaces, $alias)
+            }
+        }
+
+        foreach my $interface (@interfaces) {
             if ($role eq 'hotspot'){
                 my ($network, $netbit) = split(/\//, $hsnetwork);
                 my $mask = esmith::util::computeNetmaskFromBits($netbit);
@@ -38,6 +49,12 @@
                 $OUT .= "      access-control: ".esmith::util::computeLocalNetworkShortSpec($interface->prop('ipaddr'), $interface->prop('netmask'))." allow\n\n";
             }
         }
+
+        foreach $net (NethServer::TrustedNetworks::list_cidr()) {
+            $OUT .= "      # Allow queries from trusted network $net\n";
+            $OUT .= "      access-control: ".$net." allow\n\n";
+        }
+
     }
 
     $OUT .= "\n# Add reverse local zones\n";
