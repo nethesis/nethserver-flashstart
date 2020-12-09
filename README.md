@@ -58,6 +58,13 @@ config setprop flashstart UpdateInterval 5
 signal-event nethserver-flashstart-save
 ```
 
+## Force IP renewal
+
+If you need to notify a public IP has change, execute:
+```
+/etc/e-smith/events/actions/nethserver-flashstart-auth-ip
+```
+
 ## Testing
 
 Execute a DNS query using unbound:
