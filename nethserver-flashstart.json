@@ -1,8 +1,8 @@
 {
   "id": "nethserver-flashstart",
   "name": "FlashStart",
-  "summary": "Collini DNS filter",
-  "description": "Collini DNS filter",
+  "summary": "Cloud Content Filter",
+  "description": "Cloud Content Filter",
   "url": "",
   "homepage": "https://github.com/nethesis/nethserver-flashstart",
   "provides": ["nethserver-flashstart"],
