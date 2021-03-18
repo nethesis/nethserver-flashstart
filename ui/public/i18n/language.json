@@ -9,7 +9,7 @@
         "username_validation_bad_login": "Login failed. Incorrect username or password",
         "password_validation": "Invalid password",
         "password_validation_bad_login": "Login failed. Incorrect username or password",
-        "bypass_validation": "This must be a list of valid IP addresses",
+        "bypass_validation": "Invalid list of IP addresses, CIDR subnets or IP ranges",
         "error_reading_flashstart_configuration": "Error reading FlashStart configuration",
         "flashstart_auth": "FlashStart authentication",
         "networks_to_filter": "Networks to filter",
@@ -18,10 +18,11 @@
         "hotspot_network_description": "Hotspot network",
         "error_reading_network_roles_configuration": "Error reading network roles configuration",
         "bypass": "Bypass",
-        "bypass_source_ips": "Bypass source IPs (one per line)",
+        "bypass_source_ips": "Bypass sources",
         "configuration_update_successful": "Configuration updated",
         "configuration_update_failed": "Configuration update failed",
-        "dns_configuration": "FlashStart doesn't require any DNS configuration neither in Nethsecurity nor in clients"
+        "dns_configuration": "FlashStart doesn't require any DNS configuration neither in Nethsecurity nor in clients",
+        "bypass_placeholder": "IP addresses, CIDR subnets or IP ranges (one per line)"
     },
     "about": {
         "title": "About",

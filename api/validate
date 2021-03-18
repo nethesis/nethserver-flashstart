@@ -56,6 +56,24 @@ def get_network_roles():
     network_roles = list(dict.fromkeys(network_roles))
     return network_roles
 
+def check_ip_range(value):
+    # check if value is a valid ip range, e.g. 10.0.0.1-10.0.0.9
+    ips = value.split("-")
+
+    if len(ips) != 2:
+        return False
+
+    ip1 = ips[0]
+    ip2 = ips[1]
+
+    try:
+        ipaddress.ip_address(u'' + ip1)
+        ipaddress.ip_address(u'' + ip2)
+    except Exception:
+        return False
+
+    return True
+
 line = fileinput.input()[0].rstrip()
 input_json = simplejson.loads(line)
 invalid_attributes = []
@@ -103,7 +121,7 @@ if enable_flashstart == 'enabled':
             if role_filter not in network_roles:
                 invalid_attributes.append(invalid_attribute(roles_filter_p, "invalid"))
 
-    # bypass - ip address or cidr
+    # bypass - ip address, cidr or ip range
     if bypass_p in input_json:
         bypassList = input_json[bypass_p]
 
@@ -112,6 +130,7 @@ if enable_flashstart == 'enabled':
             if bypass:
                 is_ip = False
                 is_cidr = False
+                is_ip_range = False
 
                 try:
                     ipaddress.ip_address(u'' + bypass)
@@ -127,6 +146,9 @@ if enable_flashstart == 'enabled':
                         pass
 
                 if (not is_ip) and (not is_cidr):
+                    is_ip_range = check_ip_range(bypass)
+
+                if (not is_ip) and (not is_cidr) and (not is_ip_range):
                     invalid_attributes.append(invalid_attribute(bypass_p, "invalid"))
                     break
 

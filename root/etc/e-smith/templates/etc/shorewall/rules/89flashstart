@@ -10,14 +10,8 @@
     my $unboundPort = $unbound{'UDPPort'} || '10053';
 
     if ($status eq 'enabled') {
-        my @bypass_src = ();
+        my @bypass_src = split(",",$bypass);
         my $bypass_src_str = '';
-
-
-        foreach my $host (split(",",$bypass)) {
-            my $address = $fw->getAddress($host) || next;
-            push(@bypass_src,$address);
-        }
 
         if (scalar(@bypass_src)>0) {
             $bypass_src_str = ":!".join(',',@bypass_src);

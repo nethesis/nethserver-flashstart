@@ -128,8 +128,7 @@
             <div class="col-sm-3">
               <textarea
                 class="form-control"
-                type="checkbox"
-                placeholder=""
+                :placeholder="$t('settings.bypass_placeholder')"
                 v-model= "bypassText"
               ></textarea>
               <span class="help-block" v-if="showErrorBypass">
