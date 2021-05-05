@@ -77,9 +77,9 @@ class FlashStart extends \Nethgui\Controller\AbstractController
         $user = $this->getPlatform()->getDatabase('configuration')->getProp('flashstart','Username');
         $pass = $this->getPlatform()->getDatabase('configuration')->getProp('flashstart','Password');
         if (!$user && !$password ) {
-            $view['Registration'] = $view->translate('Before using FlashStart filter, register at http://flashstart.nethesis.it/ to obtain a user name and password.');
+            $view['Registration'] = $view->translate('Before using FlashStart filter, register at https://flashstart.nethesis.it/ to obtain a user name and password.');
         }
-        $view['FlashStartSite'] = "http://flashstart.nethesis.it/";
+        $view['FlashStartSite'] = "https://flashstart.nethesis.it/";
         $view['RolesDatasource'] = array_map(function ($x) use ($view) {
                return array($x, $view->translate($x."_label"));
         }, $this->roles);
@@ -88,7 +88,7 @@ class FlashStart extends \Nethgui\Controller\AbstractController
 
     private function validateFlashStartLogin($user, $pass) {
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "http://ddns.flashstart.it/nic/update?hostname=&myip=&wildcard=NOCHG&username=$user&password=$pass");
+        curl_setopt($ch, CURLOPT_URL, "https://ddns.flashstart.com/nic/update?hostname=&myip=&wildcard=NOCHG&username=$user&password=$pass");
         curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $res = curl_exec($ch);
