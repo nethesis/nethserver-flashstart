@@ -21,7 +21,7 @@ foreach my $provider ($fw->getProviders()) {
     } else {
         $id = $user;
     }
-    system("curl", "-s", "-o", "/dev/null", "--interface", $provider->{'interface'}, "http://ddns.flashstart.it/nic/update?hostname=&myip=&wildcard=NOCHG&username=$id&password=$pass");
+    system("curl", "-s", "-o", "/dev/null", "--interface", $provider->{'interface'}, "https://ddns.flashstart.com/nic/update?hostname=&myip=&wildcard=NOCHG&username=$id&password=$pass");
     $counter++;
 }
 

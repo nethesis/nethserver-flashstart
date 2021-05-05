@@ -88,7 +88,7 @@ class FlashStart extends \Nethgui\Controller\AbstractController
 
     private function validateFlashStartLogin($user, $pass) {
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, "http://ddns.flashstart.it/nic/update?hostname=&myip=&wildcard=NOCHG&username=$user&password=$pass");
+        curl_setopt($ch, CURLOPT_URL, "https://ddns.flashstart.com/nic/update?hostname=&myip=&wildcard=NOCHG&username=$user&password=$pass");
         curl_setopt($ch, CURLOPT_HEADER, 0);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $res = curl_exec($ch);

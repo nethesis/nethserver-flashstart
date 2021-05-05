@@ -31,7 +31,7 @@ def invalid_attribute(parameter, error):
     return { "parameter": parameter, "error": error, "value": "" }
 
 def login_flashstart_ok(username, password):
-    bash_command = "/usr/bin/curl -sS http://ddns.flashstart.it/nic/update?hostname=&myip=&wildcard=NOCHG&username=%s&password=%s" % (username, password)
+    bash_command = "/usr/bin/curl -sS https://ddns.flashstart.com/nic/update?hostname=&myip=&wildcard=NOCHG&username=%s&password=%s" % (username, password)
     process = subprocess.Popen(bash_command.split(), stdout=subprocess.PIPE)
     output, error = process.communicate()
 
