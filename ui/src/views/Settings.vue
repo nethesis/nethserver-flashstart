@@ -28,7 +28,7 @@
           {{$t('settings.dns_configuration')}}.
         </p>
         <p>
-          {{$t('settings.before_using_flashstart')}} <a href="http://flashstart.nethesis.it/" target="_blank">http://flashstart.nethesis.it/</a>.
+          {{$t('settings.before_using_flashstart')}} <a href="https://flashstart.nethesis.it/" target="_blank">https://flashstart.nethesis.it/</a>.
         </p>
       </div>
 

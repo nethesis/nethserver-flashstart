@@ -39,7 +39,7 @@ flashstart=configuration
 
 ## Usage from command line
 
-After registering at http://flashstart.nethesis.it,
+After registering at https://flashstart.nethesis.it,
 configure Flashstart and enable access to Unbound:
 
 ```
