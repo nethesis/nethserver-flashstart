@@ -1,6 +1,6 @@
 Summary: NethServer FlashStart integration
 Name: nethserver-flashstart
-Version: 2.2.5
+Version: 2.2.6
 Release: 1%{?dist}
 License: GPL
 URL: %{url_prefix}/%{name}
@@ -51,6 +51,9 @@ chmod +x %{buildroot}/usr/libexec/nethserver/api/%{name}/*
 %doc COPYING
 
 %changelog
+* Tue May 11 2021 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 2.2.6-1
+- Flashstart new URL - Nethesis/dev#6010
+
 * Fri Dec 11 2020 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 2.2.5-1
 - UI: change app description - Nethesis/nethserver-flashstart#15
 
