@@ -76,8 +76,9 @@ try:
         username = flashstart_config['props']['Username']
         password = flashstart_config['props']['Password']
         flashstart_enabled = flashstart_config['props']['status']
+        portal_url = flashstart_config['props']['PortalUrl']
         is_login_ok = login_flashstart_ok(username, password)
-        output = simplejson.dumps({ 'configuration': { 'flashstartEnabled': flashstart_enabled, 'loginOk': is_login_ok } })
+        output = simplejson.dumps({ 'configuration': { 'flashstartEnabled': flashstart_enabled, 'loginOk': is_login_ok, 'portalUrl': portal_url } })
         print(output)
     elif config == 'ftl':
         config = get_config('ftl')

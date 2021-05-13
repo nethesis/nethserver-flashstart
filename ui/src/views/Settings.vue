@@ -28,7 +28,7 @@
           {{$t('settings.dns_configuration')}}.
         </p>
         <p>
-          {{$t('settings.before_using_flashstart')}} <a href="https://flashstart.nethesis.it/" target="_blank">https://flashstart.nethesis.it/</a>.
+          {{$t('settings.before_using_flashstart')}} <a v-bind:href="portalUrl" target="_blank">{{ portalUrl }}</a>.
         </p>
       </div>
 
@@ -212,6 +212,7 @@
       getFlashstartConfigSuccess(flashstartConfigOutput) {
         this.flashstartConfig = flashstartConfigOutput.configuration.props
         this.enableFlashstart = this.flashstartConfig.status === 'enabled'
+        this.portalUrl = this.flashstartConfig.PortalUrl
 
         if (!this.flashstartConfig.Username || !this.flashstartConfig.Password) {
           this.showBanner = true
