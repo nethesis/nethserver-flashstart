@@ -76,10 +76,11 @@ class FlashStart extends \Nethgui\Controller\AbstractController
         }
         $user = $this->getPlatform()->getDatabase('configuration')->getProp('flashstart','Username');
         $pass = $this->getPlatform()->getDatabase('configuration')->getProp('flashstart','Password');
+        $portalUrl = $this->getPlatform()->getDatabase('configuration')->getProp('flashstart','PortalUrl');
         if (!$user && !$password ) {
-            $view['Registration'] = $view->translate('Before using FlashStart filter, register at https://flashstart.nethesis.it/ to obtain a user name and password.');
+            $view['Registration'] = $view->translate('Before using FlashStart filter, register to obtain a user name and password: '). $portalUrl;
         }
-        $view['FlashStartSite'] = "https://flashstart.nethesis.it/";
+        $view['FlashStartSite'] = $portalUrl;
         $view['RolesDatasource'] = array_map(function ($x) use ($view) {
                return array($x, $view->translate($x."_label"));
         }, $this->roles);

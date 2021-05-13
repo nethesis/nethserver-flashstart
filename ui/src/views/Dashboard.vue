@@ -51,7 +51,7 @@
         <div class="form-group" v-if="flashstartEnabled">
           <label class="col-sm-2 control-label margin-top-2">{{$t('dashboard.cloud_portal')}}</label>
           <div class="col-sm-2 margin-top-6">
-            <a target="_blank" href="https://flashstart.nethesis.it">{{$t('dashboard.access')}}</a>
+            <a target="_blank" v-bind:href="portalUrl">{{$t('dashboard.access')}}</a>
           </div>
         </div>
       </form>
@@ -92,6 +92,7 @@ export default {
           var output = JSON.parse(success)
           ctx.loginOk = output.configuration.loginOk
           ctx.flashstartEnabled = output.configuration.flashstartEnabled === 'enabled'
+          ctx.portalUrl = output.configuration.portalUrl
           ctx.uiLoaded = true
         },
         function(error) {
