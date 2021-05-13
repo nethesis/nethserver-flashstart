@@ -24,12 +24,14 @@ Properties:
 - ``Username``: user name for Flashstart service
 - ``status``: can be ``enabled`` or ``disabled``. Default to ``disabled``.
 - ``UpdateInterval``: a cronjob to update the WAN IP address is executed each ``UpdateInterval`` minutes. Default 30.
+- ``PortalUrl``: portal URL to be used inside the UI
 
 Example:
 ```
 flashstart=configuration
     Bypass=
     Password=11223344
+    PortalUrl=https://flashstart.nethesis.it
     Roles=green
     Username=test@nethesis.it
     status=enabled
