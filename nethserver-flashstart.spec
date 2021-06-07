@@ -1,6 +1,6 @@
 Summary: NethServer FlashStart integration
 Name: nethserver-flashstart
-Version: 2.7.0
+Version: 2.7.1
 Release: 1%{?dist}
 License: GPL
 URL: %{url_prefix}/%{name}
@@ -51,6 +51,9 @@ chmod +x %{buildroot}/usr/libexec/nethserver/api/%{name}/*
 %doc COPYING
 
 %changelog
+* Mon Jun 07 2021 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 2.7.1-1
+- Cockpit applications: honor URLs inside manifest - nethesis/dev#6030
+
 * Tue May 18 2021 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 2.7.0-1
 - Flashstart: customizable portal URL - nethesis/dev#6018
 - Delegation for Cockpit Flashstart application - Bug nethesis/dev#6016
