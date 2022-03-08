@@ -34,7 +34,7 @@
         }
 
         foreach my $interface (@interfaces) {
-            if ($role eq 'hotspot'){
+            if (($role eq 'hotspot') && ($interface->prop('role') ne "alias")){
                 my ($network, $netbit) = split(/\//, $hsnetwork);
                 my $mask = esmith::util::computeNetmaskFromBits($netbit);
                 my $prefix = esmith::util::computeLocalNetworkPrefix($network, $mask);
