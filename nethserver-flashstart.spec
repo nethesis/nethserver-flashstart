@@ -1,6 +1,6 @@
 Summary: NethServer FlashStart integration
 Name: nethserver-flashstart
-Version: 2.7.2
+Version: 2.7.3
 Release: 1%{?dist}
 License: GPL
 URL: %{url_prefix}/%{name}
@@ -51,6 +51,9 @@ chmod +x %{buildroot}/usr/libexec/nethserver/api/%{name}/*
 %doc COPYING
 
 %changelog
+* Tue Mar 08 2022 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 2.7.3-1
+- Unbound configuration broken if hotspot interface has alias IPs - Bug nethesis/dev#6119
+
 * Thu Dec 02 2021 Giacomo Sanchietti <giacomo.sanchietti@nethesis.it> - 2.7.2-1
 - FlashStart fails to start on hotspot interface - Bug nethesis/dev#6093
 
